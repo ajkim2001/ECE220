@@ -97,20 +97,102 @@ GET_NEXT
 
 
 PRINT_HIST
-
+	
 ; you will need to insert your code to print the histogram here
 
 ; do not forget to write a brief description of the approach/algorithm
 ; for your implementation, list registers used in this part of the code,
 ; and provide sufficient comments
 
+; Alex Kim netid:alexk4 2/5/2021
+; This program will print out a histogram that counts the number of each 
+; letter and non-letter used in a string. I accomplished this by printing
+; the character and space first in each line, then copying the calculated
+; values into a hex format, and then printing the ASCII values.
+; To print the ASCII values in hex format, I had to check each digit 
+; to see if it was greater than 9 to print A-F. After that, I looped back
+; to print all 27 lines while incrementing the first character of each line.
+; partners: seltzer6, egchen2
+
+; table of register use in this part of the code
+;    R0 used as a temporary register for all printing uses
+;    R1 used as the loop count during histogram printing
+;    R2 holds a pointer to the histogram (x3F00)
+;    R3 holds value at histogram address during copying
+;    R4 holds the copied value during copying
+;    R5 used as the loop count during copying
+;    R6 used to print the first ASCII character of each line
 
 
-DONE	HALT			; done
+	; Initialize registers 
+
+	LD R6,CHAR_BINS		; Start R6 before @ ASCII decimal value
+	LD R1,NUM_BINS		; Initialize loop count to 27
+	LD R2,HIST_ADDR     ; Point R2 to the start of the histogram
+
+	; Loop to print histogram starts here
+	
+BINLOOP	
+	ADD R6,R6,#1		; Increment next ASCII character
+	AND R0,R0,#0      	; Clear R0
+	ADD R0,R6,R0		; Print first character
+	OUT
+	LD	R0,SPACE		; Print space
+	OUT					; 
+
+	; 4 digit hex copy starts here
+
+	LDR R3,R2,#0		; Loads data at current histogram address
+	AND R5,R5,#0		; Clear R5
+	ADD R5,R5,#4		; Initialize hex digit loop count to 4
+
+EXTRACT
+	AND R4,R4,#0		; Clear R4
+	AND R0,R0,#0		; Clear R0
+	ADD R0,R0,#4		; Initialize binary digit loop count to 4
+EXTRACT_LOOP
+	ADD R4,R4,R4		; Shift to copy next bit
+	ADD R3,R3,#0		; Check for 1 or 0 bit
+	BRzp SHIFT			; Skip ahead if 0 bit found
+	ADD R4,R4,#1		; Add 1 if 1 bit found
+SHIFT
+	ADD R3,R3,R3		; Shift to check next bit
+	ADD R0,R0,#-1		; Decrement counter
+	BRp EXTRACT_LOOP	; Go through and copy 4 bits of 'binary'
+	ADD R0,R4,#-10		; Check if number is 0 to 9
+	BRzp MORE_THAN_NINE ; Skip ahead if more than 9
+	LD	R0,FOUREIGHT	; Add #48 to print ASCII value 0 to 9
+	BR	PRINT
+MORE_THAN_NINE
+	LD	R0,FIVEFIVE		; Add #55 to print ASCII value A to F
+PRINT
+	ADD R0,R4,R0		; Print ASCII value
+	OUT
+	ADD R5,R5,#-1		;Decrement counter
+	BRp EXTRACT			; Go through and print 4 bits of 'hex'
+
+	; Next line print and prepare until all 27 lines printed
+
+	LD	R0,NEW			; Load x000A new line into R0
+	OUT					; Print new line
+
+	ADD R2,R2,#1		; Go to next line of histogram
+	ADD R1,R1,#-1		; Decrement loop count
+	BRp BINLOOP			; Continue until loop count reaches zero
+
+
+
+
+DONE	HALT			; Done
 
 
 ; the data needed by the program
+NEW			.FILL x000A	; Used by OUT to print a new line
+CHAR_BINS	.FILL #63	; Used to print first character of each line
+SPACE		.FILL #32	; Used to print space
 NUM_BINS	.FILL #27	; 27 loop iterations
+FOUREIGHT	.FILL #48	; Decimal number to zero to nine ASCII
+FIVEFIVE	.FILL #55	; Decimal number to A to F
 NEG_AT		.FILL xFFC0	; the additive inverse of ASCII '@'
 AT_MIN_Z	.FILL xFFE6	; the difference between ASCII '@' and 'Z'
 AT_MIN_BQ	.FILL xFFE0	; the difference between ASCII '@' and '`'
