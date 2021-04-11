@@ -27,26 +27,26 @@ Testing createMaze (20 pts)
 
 Testing destroyMaze (10 pts)
 destroyMaze score: 10 points if no memory leaks/errors otherwise 0
-==44293== Memcheck, a memory error detector
-==44293== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==44293== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==44293== Command: ./grader 1
-==44293== 
-==44293== 
-==44293== HEAP SUMMARY:
-==44293==     in use at exit: 3,041 bytes in 53 blocks
-==44293==   total heap usage: 54 allocs, 1 frees, 3,609 bytes allocated
-==44293== 
-==44293== LEAK SUMMARY:
-==44293==    definitely lost: 32 bytes in 1 blocks
-==44293==    indirectly lost: 3,009 bytes in 52 blocks
-==44293==      possibly lost: 0 bytes in 0 blocks
-==44293==    still reachable: 0 bytes in 0 blocks
-==44293==         suppressed: 0 bytes in 0 blocks
-==44293== Rerun with --leak-check=full to see details of leaked memory
-==44293== 
-==44293== For lists of detected and suppressed errors, rerun with: -s
-==44293== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==42561== Memcheck, a memory error detector
+==42561== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==42561== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==42561== Command: ./grader 1
+==42561== 
+==42561== 
+==42561== HEAP SUMMARY:
+==42561==     in use at exit: 3,041 bytes in 53 blocks
+==42561==   total heap usage: 54 allocs, 1 frees, 3,609 bytes allocated
+==42561== 
+==42561== LEAK SUMMARY:
+==42561==    definitely lost: 32 bytes in 1 blocks
+==42561==    indirectly lost: 3,009 bytes in 52 blocks
+==42561==      possibly lost: 0 bytes in 0 blocks
+==42561==    still reachable: 0 bytes in 0 blocks
+==42561==         suppressed: 0 bytes in 0 blocks
+==42561== Rerun with --leak-check=full to see details of leaked memory
+==42561== 
+==42561== For lists of detected and suppressed errors, rerun with: -s
+==42561== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
 
 Testing printMaze 
 PrintMazeScore: 0
@@ -57,4 +57,4 @@ This nightly test is focusing on compilation error not functionality test.
 This nightly report only tests on the released testcases.
 There are many hidden edge testcase for the MP. Please test it yourselve.
 HIGHLY RECOMMEND YOU TO START YOUR MP EARLY!!!!!!!
-Timestamp: 2021-04-10_00:38:03
+Timestamp: 2021-04-11_00:40:45
